@@ -1,0 +1,88 @@
+<html>
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>SIGN IN PLEASE</title>
+
+<link rel="stylesheet" type="text/css" href="basic">
+
+<script src="https://www.gstatic.com/firebasejs/5.8.0/firebase.js"></script>
+
+<script>
+	var config = {
+		apiKey: "AIzaSyC_eHILdOab_SH3X3dO0c89r4Fffs-lGs0",
+		authDomain: "miqestaq-demo.firebaseapp.com",
+		databaseURL: "https://miqestaq-demo.firebaseio.com",
+		projectId: "miqestaq-demo",
+		storageBucket: "miqestaq-demo.appspot.com",
+		messagingSenderId: "400510099187"
+	};
+
+	var app = firebase.initializeApp(config);
+</script>
+
+</head>
+<body>
+
+
+<script>
+    var secureCheck = localStorage.getItem("demoSecure");
+    if (secureCheck != "yes") {
+        localStorage.setItem("demoBounceBack",window.location.href);
+        window.location.href = "secure.html";
+    }
+</script>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-auth.js"></script>
+
+<script lang="text/javascript">
+    var auth = firebase.auth(app);
+
+    function signin_good(user)
+    {
+        // this function might get hit twice, first with user null
+        if (user != null)
+            window.location.href = "insert.html";
+    }
+
+    function signin_catch(error)
+    {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert(error.message);
+    }
+
+    function signin()
+    {
+        var email = document.getElementById("myname").value;
+        var pword = document.getElementById("mypass").value;
+        if (auth) {
+            auth.onAuthStateChanged(signin_good);
+            auth.signInWithEmailAndPassword(email,pword).catch(signin_catch);
+//            auth.setPersistence(firebase.auth.Auth.Persistance.SESSION).then(
+//    function(){return auth.signInWithEmailAndPassword(email,pword).catch(signin_catch);}
+//                                                                           );
+        }
+    }
+
+</script>
+<table class="basictable">
+    <tr>
+        <td class="basiclabel">UserName:</td>
+        <td class="basicfield"><input type="text" id="myname" width="100%"></td>
+    </tr>
+    <tr>
+        <td class="basiclabel">Password:</td>
+        <td class="basicfield"><input type="text" id="mypass"></td>
+    </tr>
+    <tr>
+        <td class="basicbutton" colspan=2>
+            <input type="button" value="Sign in, please" onclick="signin()">
+        </td>
+    </tr>
+</table>
+</body>
+</html>

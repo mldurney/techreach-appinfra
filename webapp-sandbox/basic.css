@@ -1,0 +1,23 @@
+td.basiclabel {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-align: left;
+    background-color: #999999;
+    width: 25%;
+}
+
+td.basicfield {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-align: left;
+    background-color: #ffccff;
+    width: 75%;
+}
+
+td.basicbutton {
+    text-align: center;
+    background-color: #999999;
+    width: 100%;
+}
+
+.basictable {
+    border: 1;
+}
