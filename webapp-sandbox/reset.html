@@ -1,43 +1,43 @@
 <html>
+
 <head>
-<title>RESET DATABASE</title>
+  <title>RESET DATABASE</title>
 
-<script src="https://www.gstatic.com/firebasejs/5.8.0/firebase.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.0/firebase-database.js"></script>
 
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyC_eHILdOab_SH3X3dO0c89r4Fffs-lGs0",
-    authDomain: "miqestaq-demo.firebaseapp.com",
-    databaseURL: "https://miqestaq-demo.firebaseio.com",
-    projectId: "miqestaq-demo",
-    storageBucket: "miqestaq-demo.appspot.com",
-    messagingSenderId: "400510099187"
-  };
-  firebase.initializeApp(config);
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyC_eHILdOab_SH3X3dO0c89r4Fffs-lGs0",
+      authDomain: "miqestaq-demo.firebaseapp.com",
+      databaseURL: "https://miqestaq-demo.firebaseio.com",
+      projectId: "miqestaq-demo",
+      storageBucket: "miqestaq-demo.appspot.com",
+      messagingSenderId: "400510099187"
+    };
+    firebase.initializeApp(config);
 
-  var db = firebase.database();
-</script>
+    var db = firebase.database();
+  </script>
 
 </head>
 <script>
-  db.ref('pets/rover').set({species: "dog", gender: "male", age: 3});
-  db.ref('pets/lassie').set({species: "dog", gender: "female", age: 6});
-  db.ref('pets/fido').set({species: "dog", gender: "male", age: 2});
-  db.ref('pets/tom').set({species: "cat", gender: "male", age: 5});
-  db.ref('pets/sassy').set({species: "cat", gender: "female", age: 9});
+  db.ref('pets/rover').set({ species: "dog", gender: "male", age: 3 });
+  db.ref('pets/lassie').set({ species: "dog", gender: "female", age: 6 });
+  db.ref('pets/fido').set({ species: "dog", gender: "male", age: 2 });
+  db.ref('pets/tom').set({ species: "cat", gender: "male", age: 5 });
+  db.ref('pets/sassy').set({ species: "cat", gender: "female", age: 9 });
 </script>
 
 <body>
-        <h2>Test Page</h2><br/><br/>
-        <p id='text1'>in progress...</p>
+  <h2>Test Page</h2><br /><br />
+  <p id='text1'>in progress...</p>
 </body>
 <script lang='javascript'>
   var t = document.getElementById('text1');
   t.innerHTML = "Database Reset!";
 </script>
+
 </html>
-
-

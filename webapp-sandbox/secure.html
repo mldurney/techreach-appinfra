@@ -1,34 +1,35 @@
 <html>
+
 <head>
-	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-	<meta http-equiv="Pragma" content="no-cache">
-	<meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Security Check</title>
 </head>
 
 <body>
-<script src="js/md5.min.js"></script>
-<script>
-    function secureSignin() {
-        var pw = document.getElementById("narfle").value;
-        var passhash = md5(pw);
+    <script src="js/md5.min.js"></script>
+    <script>
+        function secureSignin() {
+            var pw = document.getElementById("narfle").value;
+            var passhash = md5(pw);
 
-        const checkMe = new XMLHttpRequest();
-        var checkUrl = "seccheck.php?pcode=" + passhash;
-        checkMe.open("GET",checkUrl);
-        
-        checkMe.onreadystatechange = function(){
-            if (checkMe.responseText == 1) {
-                localStorage.setItem("demoSecure","yes");
-                window.location.href = localStorage.getItem("demoBounceBack");
+            const checkMe = new XMLHttpRequest();
+            var checkUrl = "seccheck.php?pcode=" + passhash;
+            checkMe.open("GET", checkUrl);
+
+            checkMe.onreadystatechange = function () {
+                if (checkMe.responseText == 1) {
+                    localStorage.setItem("demoSecure", "yes");
+                    window.location.href = localStorage.getItem("demoBounceBack");
+                }
+                else
+                    window.alert("nope");
             }
-            else
-                window.alert("nope");
-        }
 
-        checkMe.send();
-    }
-</script>
+            checkMe.send();
+        }
+    </script>
 
     Site password: <input type="text" id="narfle" value="">
     &nbsp;&nbsp;&nbsp;&nbsp;
