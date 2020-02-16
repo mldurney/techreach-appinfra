@@ -15,6 +15,14 @@ use Illuminate\Http\Request;
 
 Route::post('register', 'API\RegisterAPIController@register');
 
+Route::middleware('auth:api')->group( function() {
+    Route::get('products', 'API\ProductsAPIController@index');
+    Route::get('products/{id}', 'API\ProductsAPIController@show');
+    Route::post('products', 'API\ProductsAPIController@store');
+    Route::put('products/{id}', 'API\ProductsAPIController@update');
+    Route::delete('products/{id}', 'API\ProductsAPIController@delete');
+});
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
