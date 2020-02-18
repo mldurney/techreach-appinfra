@@ -1,30 +1,29 @@
 import React from 'react';
-import { AsyncStorage } from 'react-native'
-import { StyleSheet, Text, View } from 'react-native';
-import { Provider } from 'react-redux'
-import { persistStore } from 'redux-persist'
-import immutableTransform from 'redux-persist-transform-immutable'
-import store from './App/Store'
-import Root from './App/Root'
+import { Provider as PaperProvider } from 'react-native-paper';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider as StoreProvider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
-export default class App extends React.Component {
-  componentDidMount(){
-    persistStore(store, {storage:AsyncStorage, transforms: [immutableTransform()],whitelist:['auth']} )
-  }
-  render() {
-    return (
-      <Provider store={store}>
-        <Root /> 
-      </Provider>
-    );
-  }
-}
+import rootReducer from './src/reducers';
+import { theme } from './src/config/theme';
+import App from './src';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const loggerMiddleware = createLogger();
+const store = createStore(
+  rootReducer,
+  applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware
+  )
+);
+
+const Main = () => (
+  <StoreProvider store={store}>
+    <PaperProvider theme={theme}>
+      <App />
+    </PaperProvider>
+  </StoreProvider>
+);
+
+export default Main;

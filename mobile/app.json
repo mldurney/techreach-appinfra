@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Sample TechReach App",
-    "slug": "ExpoTest",
+    "name": "TechReach",
+    "slug": "TechReachDemoApp",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
