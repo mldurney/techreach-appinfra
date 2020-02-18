@@ -77,65 +77,65 @@ export function setError(error) {
   }; 
 }
 
-export function login(email, password) {
-  return (dispatch) => {
-    dispatch(loginRequest(email, password));
+// export function login(email, password) {
+//   return (dispatch) => {
+//     dispatch(loginRequest(email, password));
 
-    // TODO(iris): change this to /login!
-    const login_url = API_URL + OAUTH_ROUTE;
-    const request = {
-      method:'POST',
-      headers: {
-          'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        grant_type:'password',
-        client_id: '2',
-        client_secret: 'Ad8mbpxYqtE00G15SML5DZXAMj1JtMgYa5h7akmS',
-        username: email,
-        password: password,
-        scope: '*'
-      })
-    };
+//     // TODO(iris): change this to /login!
+//     const login_url = API_URL + OAUTH_ROUTE;
+//     const request = {
+//       method:'POST',
+//       headers: {
+//           'Content-Type' : 'application/json'
+//       },
+//       body: JSON.stringify({
+//         grant_type:'password',
+//         client_id: '2',
+//         client_secret: 'Ad8mbpxYqtE00G15SML5DZXAMj1JtMgYa5h7akmS',
+//         username: email,
+//         password: password,
+//         scope: '*'
+//       })
+//     };
 
-    return fetch(login_url, request)
-      .then(response => response.json())
-      .then(json => {
-        if (json.hasOwnProperty('error')) {
-          dispatch(loginFailure(json.message));
-        } else {
-          dispatch(loginSuccess(json));
-        }
-      })
-      .catch((error) => {
-        dispatch(loginFailure(error));
-      });
-  };
-}
+//     return fetch(login_url, request)
+//       .then(response => response.json())
+//       .then(json => {
+//         if (json.hasOwnProperty('error')) {
+//           dispatch(loginFailure(json.message));
+//         } else {
+//           dispatch(loginSuccess(json));
+//         }
+//       })
+//       .catch((error) => {
+//         dispatch(loginFailure(error));
+//       });
+//   };
+// }
 
-export function loginRequest(email, password) {
+// export function loginRequest(email, password) {
+//   return {
+//     type: 'LOGIN_REQUEST',
+//     payload: { email, password }
+//   };
+// }
+
+export function userLogin(payload) {
   return {
-    type: 'LOGIN_REQUEST',
-    payload: { email, password }
-  };
-}
-
-export function loginSuccess(payload) {
-  return {
-    type: 'LOGIN_SUCCESS',
+    type: 'USER_LOGIN',
     payload
   };
 }
 
-export function loginFailure(payload) {
-  return {
-    type: 'LOGIN_FAILURE',
-    payload
-  };
-}
+// export function loginFailure(payload) {
+//   return {
+//     type: 'LOGIN_FAILURE',
+//     payload
+//   };
+// }
 
-export function logout() {
+export function userLogout() {
   return {
-    type: 'LOGOUT_REQUEST'
+    type: 'USER_LOGOUT'
   };
 }

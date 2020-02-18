@@ -1,5 +1,6 @@
 import React, { memo, useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { emailValidator } from '../utils/validators';
 import Background from '../components/Background';
 import BackButton from '../components/BackButton';
@@ -8,11 +9,14 @@ import Header from '../components/Header';
 import TextInput from '../components/TextInput';
 import { theme } from '../config/theme';
 import Button from '../components/Button';
+import { API_URL, FORGOT_ROUTE } from '../config/urls';
 
 const ForgotPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const _onSendPressed = () => {
+  async function _onSendPressed() {
     const emailError = emailValidator(email.value);
 
     if (emailError) {
@@ -20,8 +24,58 @@ const ForgotPasswordScreen = ({ navigation }) => {
       return;
     }
 
-    navigation.navigate('LoginScreen');
-  };
+    const forgot_url = API_URL + FORGOT_ROUTE;
+    const request = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email.value
+      })
+    };
+
+    setLoading(true);
+    const res = fetch(forgot_url, request)
+      .then(response => response.json())
+      .then(json => {
+        switch(json.data) {
+          case 'passwords.throttled':
+            Alert.alert(
+              'Too many requests',
+              'Please try again after waiting for a short time.',
+              [{text: 'OK'}],
+              { cancelable: false }
+            );
+            break;
+
+          case 'passwords.user':
+            setEmail({ ...email, error: 'No account exists with this email.' });
+            break;
+
+          default:
+            Alert.alert(
+              'Reset link sent!',
+              'Please check your inbox for a password reset link.',
+              [{text: 'OK'}],
+              { cancelable: false }
+            );
+            navigation.navigate('LoginScreen');
+        }        
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        Alert.alert(
+          'Network error',
+          'Please check your internet connection and try again.',
+          [{text: 'OK'}],
+          { cancelable: false }
+        );
+        setLoading(false);
+      });
+  }
 
   return (
     <Background>
@@ -44,7 +98,13 @@ const ForgotPasswordScreen = ({ navigation }) => {
         keyboardType="email-address"
       />
 
-      <Button mode="contained" onPress={_onSendPressed} style={styles.button}>
+      <Button 
+        mode="contained"
+        onPress={_onSendPressed}
+        style={styles.button}
+        disabled={loading}
+        loading={loading}
+      >
         Send Reset Instructions
       </Button>
 

@@ -1,5 +1,7 @@
 import React, { memo, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Alert, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useDispatch } from 'react-redux';
+
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
@@ -12,14 +14,18 @@ import {
   passwordValidator,
   nameValidator,
 } from '../utils/validators';
+import { userLogin } from '../actions';
+import { API_URL, REGISTER_ROUTE } from '../config/urls';
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState({ value: '', error: '' });
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
   const [pwConfirm, setPwConfirm] = useState({ value: '', error: '' });
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-  const _onSignUpPressed = () => {
+  async function _onSignUpPressed() {
     const nameError = nameValidator(name.value);
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
@@ -36,8 +42,46 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
-  };
+    const register_url = API_URL + REGISTER_ROUTE;
+    const request = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        password_confirmation: pwConfirm.value
+      })
+    };
+
+    setLoading(true);
+    const res = fetch(register_url, request)
+      .then(response => response.json())
+      .then(json => {
+        if (!json.success && json.data.hasOwnProperty('email')) {
+          setEmail({ 
+            ...email, 
+            error: json.data.email[0]
+          });
+        } else {
+          dispatch(userLogin(json.data));
+          navigation.navigate('Dashboard');
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        Alert.alert(
+          'Network error',
+          'Please check your internet connection and try again.',
+          [{text: 'OK'}],
+          { cancelable: false }
+        );
+        setLoading(false);
+      });
+  }
 
   return (
     <Background>
@@ -89,7 +133,13 @@ const RegisterScreen = ({ navigation }) => {
         secureTextEntry
       />
 
-      <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
+      <Button 
+        mode="contained"
+        onPress={_onSignUpPressed}
+        style={styles.button}
+        loading={loading}
+        disabled={loading}
+      >
         Sign Up
       </Button>
 

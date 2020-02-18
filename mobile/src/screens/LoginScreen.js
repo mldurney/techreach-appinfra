@@ -1,6 +1,6 @@
 import React, { memo, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { Alert, TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 import Background from '../components/Background';
 import Logo from '../components/Logo';
@@ -10,7 +10,7 @@ import TextInput from '../components/TextInput';
 import BackButton from '../components/BackButton';
 import { theme } from '../config/theme';
 import { emailValidator, passwordValidator } from '../utils/validators';
-import { loginSuccess } from '../actions';
+import { userLogin } from '../actions';
 import { API_URL, OAUTH_ROUTE } from '../config/urls';
 import { CLIENT_ID, CLIENT_SECRET } from '../config/auth';
 
@@ -66,23 +66,24 @@ const LoginScreen = ({ navigation }) => {
           setEmail({ 
             ...email, 
             error: true,
-            error_message: 'Invalid username or password.'
+            error_message: 'Incorrect username or password.'
           });
           setPassword({...password, error: true});
         } else {
-          dispatch(loginSuccess(json));
+          dispatch(userLogin(json));
           navigation.navigate('Dashboard');
         }
         setLoading(false);
       })
       .catch((error) => {
-        setEmail({ ...email, error: true, error_message: 'Network error.' });
-        setPassword({...password, error: true})
+        Alert.alert(
+          'Network error',
+          'Please check your internet connection and try again.',
+          [{text: 'OK'}],
+          { cancelable: false }
+        );
         setLoading(false);
       });
-
-    // dispatch(login(email.value, password.value));
-    // navigation.navigate('Dashboard');
   }
 
   return (
