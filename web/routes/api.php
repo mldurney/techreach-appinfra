@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('register', 'API\RegisterAPIController@register');
+Route::post('forgot', 'API\ForgotPasswordAPIController@sendResetLinkEmail');
 
 Route::middleware('auth:api')->group( function() {
     Route::get('products', 'API\ProductsAPIController@index');

@@ -57,7 +57,7 @@ class RegisterAPIController extends BaseAPIController
         // Send back the user token and the name, email used to register as
         // confirmation.
         $success = [
-            'token' => $user->createToken('UserToken')->accessToken,
+            'access_token' => $user->createToken('UserToken')->accessToken,
             'name' => $user->name,
             'email' => $user->email
         ];
