@@ -11,8 +11,7 @@ import BackButton from '../components/BackButton';
 import { theme } from '../config/theme';
 import { emailValidator, passwordValidator } from '../utils/validators';
 import { userLogin } from '../actions';
-import { API_URL, OAUTH_ROUTE } from '../config/urls';
-import { CLIENT_ID, CLIENT_SECRET } from '../config/auth';
+import { API_URL, LOGIN_ROUTE } from '../config/urls';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ 
@@ -41,20 +40,15 @@ const LoginScreen = ({ navigation }) => {
       setPassword({ ...password, error: false, error_message: '' });
     }
 
-    // TODO(iris): change this to LOGIN_ROUTE
-    const login_url = API_URL + OAUTH_ROUTE;
+    const login_url = API_URL + LOGIN_ROUTE;
     const request = {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
-        grant_type: 'password',
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        username: email.value,
+        email: email.value,
         password: password.value,
-        scope: '*'
       })
     };
 
