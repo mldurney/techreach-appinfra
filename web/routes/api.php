@@ -13,10 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::post('login', 'API\LoginAPIController@login');
+Route::post('login/refresh', 'API\LoginAPIController@refresh');
 Route::post('register', 'API\RegisterAPIController@register');
 Route::post('forgot', 'API\ForgotPasswordAPIController@sendResetLinkEmail');
 
 Route::middleware('auth:api')->group( function() {
+    Route::post('logout', 'API\LoginAPIController@logout');
     Route::get('products', 'API\ProductsAPIController@index');
     Route::get('products/{id}', 'API\ProductsAPIController@show');
     Route::post('products', 'API\ProductsAPIController@store');
