@@ -24,7 +24,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
       return;
     }
 
-    const forgot_url = API_URL + FORGOT_ROUTE;
+    const forgotUrl = API_URL + FORGOT_ROUTE;
     const request = {
       method: 'POST',
       headers: {
@@ -37,7 +37,7 @@ const ForgotPasswordScreen = ({ navigation }) => {
     };
 
     setLoading(true);
-    const res = fetch(forgot_url, request)
+    const res = fetch(forgotUrl, request)
       .then(response => response.json())
       .then(json => {
         switch(json.data) {

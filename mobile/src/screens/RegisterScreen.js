@@ -42,7 +42,7 @@ const RegisterScreen = ({ navigation }) => {
       return;
     }
 
-    const register_url = API_URL + REGISTER_ROUTE;
+    const registerUrl = API_URL + REGISTER_ROUTE;
     const request = {
       method: 'POST',
       headers: {
@@ -58,7 +58,7 @@ const RegisterScreen = ({ navigation }) => {
     };
 
     setLoading(true);
-    const res = fetch(register_url, request)
+    const res = fetch(registerUrl, request)
       .then(response => response.json())
       .then(json => {
         if (!json.success && json.data.hasOwnProperty('email')) {

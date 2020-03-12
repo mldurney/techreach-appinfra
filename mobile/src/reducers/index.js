@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     email: '',
     access_token: '',
     refresh_token: '',
-    expires: null,
+    expires_in: null,
+    token_type: ''
   },
 
   // products component
@@ -24,7 +25,6 @@ const INITIAL_STATE = {
 const authReducer = (state = fromJS(INITIAL_STATE), action) => {
   switch(action.type) {
     case 'USER_LOGIN':
-      // console.log('payload',action.payload)
       return state.merge({
         current_user: action.payload,
         loading: false,

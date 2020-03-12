@@ -40,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
       setPassword({ ...password, error: false, error_message: '' });
     }
 
-    const login_url = API_URL + LOGIN_ROUTE;
+    const loginUrl = API_URL + LOGIN_ROUTE;
     const request = {
       method: 'POST',
       headers: {
@@ -53,7 +53,7 @@ const LoginScreen = ({ navigation }) => {
     };
 
     setLoading(true);
-    const res = fetch(login_url, request)
+    const res = fetch(loginUrl, request)
       .then(response => response.json())
       .then(json => {
         if (json.hasOwnProperty('error')) {

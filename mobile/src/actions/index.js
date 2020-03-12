@@ -1,5 +1,3 @@
-import { API_URL, OAUTH_ROUTE } from '../config/urls';
-
 export function setError(error) {
   return {
     type: 'SET_ERROR',

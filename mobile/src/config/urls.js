@@ -1,5 +1,5 @@
 // base API url
-export const API_URL = 'https://a32fb885.ngrok.io/api';
+export const API_URL = 'https://a2eda6a9.ngrok.io/api';
 
 // routes
 export const LOGIN_ROUTE = '/login';
